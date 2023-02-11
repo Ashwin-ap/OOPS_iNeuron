@@ -167,29 +167,184 @@ Q21. Describe two methods for triggering exceptions in your script.
 
 Q22. Identify two methods for specifying actions to be executed at termination time, regardless of
 whether or not an exception exists.
+- There are two methods for specifying actions to be executed at termination time in Python:
+
+Using the "finally" clause in a try-except block: The "finally" clause is used to specify actions that will always be executed, regardless of whether an exception occurs or not. The syntax for using the "finally" clause is:
+
+try:
+# code that might raise an exception
+except [ExceptionType1 [as var1]]:
+# code to handle ExceptionType1
+except [ExceptionType2 [as var2]]:
+# code to handle ExceptionType2
+finally:
+# code that will always be executed
+
+Using the "with" statement: The "with" statement is used to wrap the execution of a block of code to ensure that specified cleanup actions are always executed, regardless of whether an exception occurs or not. The syntax for using the "with" statement is:
+
+with open("file.txt", "r") as file:
 
 Q23. What is the purpose of the try statement?
+- The try statement is used to handle exceptions, or run-time errors.
+try:
+    # code that might raise an exception
+except [ExceptionType1 [as var1]]:
+    # code to handle ExceptionType1
+except [ExceptionType2 [as var2]]:
+    # code to handle ExceptionType2
+...
+The code inside the try block is executed. If an exception occurs, the code inside the corresponding except block is executed. The except blocks can be used to handle specific types of exceptions and to provide a recovery mechanism for the program. If no exception occurs in the try block, the code inside the except block is skipped.
 
 Q24. What are the two most popular try statement variations?
+- 1. Try-Except: The try-except statement is used to handle exceptions that occur during the execution of a program.
+
+If an exception occurs in the try block, the corresponding except block is executed to handle the exception. If no exception occurs, the except block is skipped.
+
+2. Try-Finally: The try-finally statement is used to specify actions that will always be executed, regardless of whether an exception occurs or not.
+
+The code inside the finally block is executed whether an exception occurs or not, and is typically used for cleanup operations such as closing files, releasing resources, or undoing actions.
 
 Q25. What is the purpose of the raise statement?
+- The raise statement in Python is used to raise an exception. It can be used to raise a specific exception or to re-raise the current exception.
+raise ExceptionType("error message")
+The purpose of the raise statement is to force the program to raise an exception, either to signal an error condition or to indicate that some specific action has failed. This allows you to create custom exception types and to propagate exceptions up the call stack, making it easier to handle and diagnose errors.
+
 
 Q26. What does the assert statement do, and what other statement is it like?
+ - The assert statement in Python is used to check if a given condition is True, and if it is not, raise an AssertionError.
+ assert condition, error_message
+The condition is the expression that you want to test, and the error_message is an optional string that will be displayed if the condition is False.
+
+The purpose of the assert statement is to provide a simple and readable way to check for error conditions in your code. If the condition is False, the AssertionError is raised, indicating that an error has occurred and that further action is needed to resolve it.
+
+The assert statement is similar to a if statement.
 
 Q27. What is the purpose of the with/as argument, and what other statement is it like?
+- The purpose of the with statement is to ensure that the expression is properly managed and cleaned up, even if an exception occurs during the execution of the code block. The expression is evaluated, and its result is assigned to the variable if the as clause is used.
+
+The with statement provides a convenient and readable way to manage resources such as files, sockets, and databases, and to ensure that resources are properly acquired and released. The with statement also makes it easy to handle exceptions that might occur while accessing these resources.
+
+with open("example.txt", "r") as f:
+    contents = f.read()
+    # do something with contents
+
+The with statement is similar to the try-finally statement, with the difference that the with statement is more concise and easier to read, and also provides a more convenient way to manage resources. 
 
 Q28. What are *args, **kwargs?
+*args is used to send a non-keyworded variable length argument list to the function. Essentially, it allows you to pass a variable number of arguments to the function, which are then collected into a tuple. The syntax for using *args is as follows:
+def function_name(*args):
+    # function body
+
+**kwargs is used to pass keyworded variable length of arguments to a function. It allows you to pass keyworded arguments to the function, where the keywords are mapped to a dictionary, and the values of the arguments are stored in the dictionary. The syntax for using **kwargs is as follows:
+def function_name(**kwargs):
+    # function body
+
 
 Q29. How can I pass optional or keyword parameters from one function to another?
+ou can pass optional or keyword parameters from one function to another in Python by using default values for the parameters in the second function and passing the arguments as keyword arguments when calling the second function from the first.
+
+For example, let's say you have two functions: first_function and second_function. first_function calls second_function, and you want to pass an optional parameter param1 with a default value of None to second_function:
+def second_function(param1=None):
+    # function body
+
+def first_function():
+    # function body
+    second_function(param1="Hello")
+
+You can also pass keyword parameters from one function to another using the **kwargs syntax. **kwargs allows you to pass any number of keyword arguments as a dictionary to the function. For example:
+def second_function(**kwargs):
+    param1 = kwargs.get("param1", None)
+    # function body
+
+def first_function():
+    # function body
+    kwargs = {"param1": "Hello"}
+    second_function(**kwargs)
+
 
 Q30. What are Lambda Functions?
+- Lambda functions in Python are small, anonymous functions that are defined using the lambda keyword. They are often used as an alternative to writing a full-fledged function using the def keyword. Lambda functions are often used in combination with higher-order functions, such as map, filter, and reduce, to perform operations on lists or other data structures. 
+
+>>> square = lambda x: x**2
+>>> square(5)
+25
+
+lambda functions are limited in their functionality and can only contain a single expression. For more complex operations, it's usually better to write a full-fledged function using the def keyword.
+
 
 Q31. Explain Inheritance in Python with an example?
+- Inheritance is a fundamental concept in object-oriented programming (OOP) that allows you to create new classes based on existing classes. The new class inherits attributes and behaviors from the existing class and can add new attributes and behaviors of its own. This helps you to reuse existing code and build new classes more easily.
+
+
+class Animal:
+    def __init__(self, name, species):
+        self.name = name
+        self.species = species
+
+    def make_sound(self):
+        print("Some generic animal sound")
+
+class Dog(Animal):
+    def __init__(self, name, breed):
+        Animal.__init__(self, name, species="Dog")
+        self.breed = breed
+
+    def make_sound(self):
+        print("Woof!")
+
+dog = Dog("Fido", "Labrador")
+print(dog.name)
+print(dog.species)
+print(dog.breed)
+dog.make_sound()
+
 
 Q32. Suppose class C inherits from classes A and B as class C(A,B).Classes A and B both have their own versions of method func(). If we call func() from an object of class C, which version gets invoked?
 
+- when a class inherits from multiple classes (also known as multiple inheritance), the method resolution order (MRO) determines the order in which the parent classes are searched for a method. The MRO is determined by a linearization of the inheritance hierarchy and is used to resolve method name conflicts between multiple parent classes.
+
+The MRO in Python follows the C3 linearization algorithm, which gives priority to the leftmost parent class in the inheritance hierarchy. This means that if class C inherits from class A before class B (i.e., class C(A, B)), then the version of func() defined in class A will be invoked.
+
 Q33. Which methods/functions do we use to determine the type of instance and inheritance?
 
+- type: The built-in type function returns the type of an object. For example, type(x) returns the type of x.
+
+isinstance: The built-in isinstance function checks if an object is an instance of a particular class or a subclass of that class. For example, isinstance(x, MyClass) returns True if x is an instance of MyClass or a subclass of MyClass.
+
+issubclass: The built-in issubclass function checks if a class is a subclass of another class. For example, issubclass(MySubClass, MyClass) returns True if MySubClass is a subclass of MyClass.
+
+__class__ attribute: Every instance in Python has a __class__ attribute that stores the type of the instance. For example, x.__class__ returns the type of x.
+
 Q34.Explain the use of the 'nonlocal' keyword in Python.
+The nonlocal keyword in Python is used to refer to a variable defined in the nearest enclosing scope that is not global. It is used within a nested function to indicate that a variable is not local to the inner function, but is instead defined in the nearest enclosing scope.
+
+def outer_function():
+    x = 10
+    def inner_function():
+        nonlocal x
+        x = 20
+    inner_function()
+    print(x)
+
+outer_function()
+
+output - 20
+
+The nonlocal keyword is used to modify variables in an outer scope from within a nested function. Without nonlocal, any assignment to a variable would create a new local variable in the inner function scope, hiding the variable in the outer scope. The nonlocal keyword allows you to modify the value of a variable in the nearest enclosing scope, rather than creating a new local variable with the same name.
 
 Q35. What is the global keyword?
+
+- The global keyword in Python is used to indicate that a variable is a global variable. A global variable is a variable that is accessible from anywhere in the code, not just within the current function or module.
+
+x = 10
+
+def my_function():
+    global x
+    x = 20
+
+my_function()
+print(x)
+
+output : 20
+
+It's important to use the global keyword carefully, as modifying global variables can make your code harder to understand and maintain. In general, it's better to avoid using global variables and instead pass values as arguments to functions and return values from functions. The global keyword should only be used when necessary, such as when you need to access or modify a global variable within a function.
